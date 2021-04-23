@@ -1,7 +1,23 @@
 """Sign-up & log-in forms."""
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, StringField, SubmitField
+from wtforms import SelectField, PasswordField, StringField, SubmitField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, Optional
+from .models import db, User
+
+
+def user_choices():
+    output_list = []
+    result = db.session.query(User).all()
+    for row in result:
+        output_list.append((row.id, row.name))
+    return output_list
+
+
+class DashboardForm(FlaskForm):
+    """Test to populate from from db data"""
+    # name = StringField('Users', validators=[DataRequired(), ])
+    name = SelectField('boat_type', choices=user_choices(), validators=[DataRequired(), ])
+    submit = SubmitField('Submit')
 
 
 class SignupForm(FlaskForm):

@@ -1,6 +1,7 @@
 """Logged-in page routes."""
 from flask import Blueprint, redirect, render_template, url_for
 from flask_login import current_user, login_required, logout_user
+from .forms import DashboardForm
 
 # Blueprint Configuration
 main_bp = Blueprint(
@@ -14,12 +15,14 @@ main_bp = Blueprint(
 @login_required
 def dashboard():
     """Logged-in User Dashboard."""
+    form = DashboardForm()
     return render_template(
         'dashboard.jinja2',
         title='Flask-Login Tutorial.',
         template='dashboard-template',
         current_user=current_user,
-        body="You are now logged in!"
+        body="You are now logged in!",
+        form=form
     )
 
 
